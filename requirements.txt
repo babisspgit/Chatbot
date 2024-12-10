@@ -1,0 +1,7 @@
+chainlit
+langchain
+pydantic<2.0
+openai
+transformers
+python-dotenv
+-e .
