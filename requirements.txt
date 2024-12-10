@@ -5,3 +5,7 @@ openai
 transformers
 python-dotenv
 -e .
+langchain-community
+langchain-huggingface
+accelerate
+faiss-cpu
