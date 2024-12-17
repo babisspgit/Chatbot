@@ -1,18 +1,28 @@
 import chainlit as cl
-from src.llm import ask_question, messages
 
 
-@cl.on_message
+@cl.step(type="tool")
+async def tool():
+    # Fake tool
+    await cl.sleep(2)
+    return "Response from the tool!"
+
+
+@cl.on_message  # this function will be called every time a user inputs a message in the UI
 async def main(message: cl.Message):
-    # Your custom logic goes here...
+    """
+    This function is called every time a user inputs a message in the UI.
+    It sends back an intermediate response from the tool, followed by the final answer.
 
-    messages.append({"role": "user", "content": message.content})
-    response = ask_question(messages)
-    messages.append({"role": "system", "content": response})
+    Args:
+        message: The user's message.
 
-    # Send a response back to the user
-    await cl.Message(
-        #content=f"Received: {message.content}",
-        content=response,
+    Returns:
+        None.
+    """
 
-    ).send()
+
+    # Call the tool
+    tool_res = await tool()
+
+    await cl.Message(content=tool_res).send()
