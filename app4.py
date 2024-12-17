@@ -9,6 +9,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain.prompts import PromptTemplate
+from src.llm import 
 
 # Initialize Hugging Face Model
 def initialize_model():
@@ -35,7 +36,6 @@ def load_markdown_files(directory):
             docs.extend(loader.load_and_split())
     return docs
 
-
 # Split Documents into Chunks
 def split_documents(documents):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100, add_start_index=True)
@@ -57,11 +57,13 @@ def transform_files(path):
 # Create a RetrievalQA Chain
 def create_qa_chain(vector_store, llm):
     retriever = vector_store.as_retriever()
+
     prompt_template = """
     You are a helpful assistant. Use the following context to answer the question:
     {context}
     Question: {question}
     Answer:"""
+
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
     qa_chain = RetrievalQA(llm=llm, retriever=retriever, prompt=prompt)
     return qa_chain
@@ -70,11 +72,10 @@ def create_qa_chain(vector_store, llm):
 @cl.on_chat_start
 async def on_chat_start():
     llm = initialize_model()
-    #directory = "Chatbot/data" 
-    #documents = load_markdown_files(directory)
-    #chunks = split_documents(documents)
-    #vector_store = create_vector_store(chunks)
-    transform_files("Chatbot/data")
+    directory = "Chatbot/data" 
+    documents = load_markdown_files(directory)
+    chunks = split_documents(documents)
+    vector_store = create_vector_store(chunks)
     qa_chain = create_qa_chain(vector_store, llm)
     cl.user_session.set("qa_chain", qa_chain)
 
