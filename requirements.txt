@@ -3,11 +3,11 @@ pydantic==2.10.1
 langchain
 #pydantic<2.0
 openai
-transformers
+#transformers
 python-dotenv
 langchain-community
 langchain-openai
 #langchain-huggingface
-accelerate
+#accelerate
 faiss-cpu
 -e .
