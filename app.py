@@ -53,7 +53,7 @@ def split_documents(documents):
     - Ensures that chunks are of manageable size (e.g., 500 characters with 100-character overlap).
     - Adds start indices for better context tracking.
     """
-    text_splitter = RecursiveCharacterTextSplitter(
+    text_splitter = RecursiveCharacterTextSplitter( # CharacterTextSplitter, SentenceTextSplitter, or MarkdownHeaderTextSplitter
         chunk_size=500,  # Max size of each chunk
         chunk_overlap=100,  # Overlap to maintain context across chunks
         add_start_index=True  # Track where each chunk starts in the original document
@@ -68,8 +68,8 @@ def create_vector_store(chunks):
     - Uses `HuggingFaceEmbeddings` for text embeddings with a lightweight model.
     - Embeds the document chunks into a dense vector space for retrieval.
     """
-    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")  # Lightweight embedding model
-    vector_store = FAISS.from_documents(chunks, embedding_model)  # Create vector store
+    embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")  # Lightweight embedding model # Better model: sentence-transformers/all-mpnet-base-v2, SciBERT
+    vector_store = FAISS.from_documents(chunks, embedding_model)  # Create vector store with FAISS or Weaviate, Pinecone, Milvus, Chroma
     return vector_store  # Return vector store
 
 def transform_files(path):
@@ -96,7 +96,7 @@ def create_qa_chain(vector_store, llm):
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
         retriever=retriever,
-        chain_type="stuff"  # Use the "stuff" chain type for combining document chunks
+        chain_type="stuff"  # Use the "stuff" chain type for combining document chunks, "map_reduce" (summarization) or "refine" (iterative improvement).
     )
     return qa_chain
 
