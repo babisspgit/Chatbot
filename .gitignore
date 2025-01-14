@@ -1,6 +1,7 @@
 # ignore data folder
 #data/
 testingshit.ipynb
+strm/
 
 __pycache__/
 *.log
