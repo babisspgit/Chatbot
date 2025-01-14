@@ -8,3 +8,4 @@ langchain-openai
 #langchain-huggingface
 faiss-cpu
 -e .
+sentence-transformers
