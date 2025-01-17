@@ -90,7 +90,7 @@ def create_qa_chain(_vector_store, _llm):
 
 # Main App
 def main():
-    st.title("Streamlit LangChain QA Bot")
+    st.title("Streamlit Bot")
 
     # Load model and data
     llm = initialize_model()
@@ -102,7 +102,7 @@ def main():
     if "messages" not in st.session_state:
         st.session_state["messages"] = []
 
-    st.subheader("Chat with the Bot")
+    st.subheader("")
 
     # Display chat history
     for message in st.session_state["messages"]:
