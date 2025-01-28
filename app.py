@@ -126,3 +126,5 @@ async def on_message(message: cl.Message):
     qa_chain = cl.user_session.get("qa_chain")  # Get QA chain from the session
     response = qa_chain.run(message.content)  # Run the QA chain with the user's message
     await cl.Message(content=response).send()  # Send the response back to the user
+
+#chainlit run app.py --port 8501 --host 0.0.0.0 --headless
